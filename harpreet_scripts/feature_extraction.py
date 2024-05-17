@@ -1,13 +1,18 @@
+#__author__="harpreet kaur bargota"
+#__email__="harpreet.bargota@agr.gc.ca"
+#__Project__="WGRF - Image Classification pipeline for Faba beans"
+
+#References: 
+#SegmentAnthing (MetaAI): https://github.com/facebookresearch/segment-anything 
+# Reference paper: @article{kirillov2023segany, title={Segment Anything}, author={Kirillov, Alexander and Mintun, Eric and Ravi, Nikhila and Mao, Hanzi and Rolland, Chloe and Gustafson, Laura and Xiao, Tete and Whitehead, Spencer and Berg, Alexander C. and Lo, Wan-Yen and Doll{\'a}r, Piotr and Girshick, Ross},journal={arXiv:2304.02643},year={2023}}
+
+#Feature extraction: 
+#scikit-image library for image processing: Stéfan van der Walt, Johannes L. Schönberger, Juan Nunez-Iglesias, François Boulogne, Joshua D. Warner, Neil Yager, Emmanuelle Gouillart, Tony Yu and the scikit-image contributors. scikit-image: Image processing in Python. PeerJ 2:e453 (2014) https://doi.org/10.7717/peerj.453
+#https://scikit-image.org/docs/stable/api/skimage.measure.html
 
 
 
 
-
-import argparse
-import os
-import pandas as pd
-import cv2 
-import numpy as np
 
 
 ###Image classification pipeline using amg SAM, inverted mask, label, feature extraction and classification
@@ -15,6 +20,7 @@ import numpy as np
     
     ## for loop for pipeline
 import torch
+import argparse
 import matplotlib.pyplot as plt
 import cv2
 import pandas as pd
@@ -90,14 +96,14 @@ def process_images(input_folder, output_folder):
 		df_total = []
 		
 		for idx, file in enumerate(files):
-        # Read an image
+#Step1:        # Read an image
 			image_path=os.path.join(root,file)
 			image_path = os.path.join(root,file)
 			image=cv2.imread(image_path)
 			image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)   
 			#image = crop(image, ((2000, 800), (50, 50), (0,0)), copy=False)   
 			image = crop(image, ((2200, 800), (50, 50), (0,0)), copy=False)
-	#Apply SegmentAnything model 
+#Step2: 	#Apply SegmentAnything model 
  
 			sam = sam_model_registry[model_type](checkpoint=sam_checkpoint) 
 			sam.to(device=device) 
@@ -127,12 +133,12 @@ def process_images(input_folder, output_folder):
 			df2=pd.concat(df1,axis=1)
 			df_metadata=df2.T.apply(pd.to_numeric).set_index('id')
 			
-            
+ #Step3:           
             # Filtering the masks of beans and eliminating the masks of labels and coin
-			df_metadata = df_metadata.drop(df_metadata[(df_metadata['bbox_x0'] <= 1600) & (df_metadata['bbox_y0'] >= 2500)].index) 
+			df_metadata = df_metadata.drop(df_metadata[(df_metadata['bbox_x0'] <= 1600) & (df_metadata['bbox_y0'] >= 2400)].index) 
 			df_metadata = df_metadata.drop(df_metadata[(df_metadata['bbox_x0'] >= 3300) & (df_metadata['bbox_y0'] >= 2000)].index)
-			df_metadata = df_metadata.drop(df_metadata[(df_metadata['bbox_h'] >= 800)].index)
-			df_metadata = df_metadata.drop(df_metadata[(df_metadata['bbox_w'] >= 1000)].index)
+			df_metadata = df_metadata.drop(df_metadata[(df_metadata['bbox_h'] >= 600)].index) #800
+			df_metadata = df_metadata.drop(df_metadata[(df_metadata['bbox_w'] >= 600)].index) #1000
 			df_metadata=df_metadata.loc[(df_metadata['area'] >= 5000) & (df_metadata['area'] <= 290000)]
 			print (df_metadata)
 			
@@ -160,7 +166,7 @@ def process_images(input_folder, output_folder):
 			
 			print("After filtering of the masks, now the length of all masks required for feature extraction is: ", len(masks_SAM))
 			
-            ##### IMAGE ANNOTATION --  Supervision detections
+#Step4:            ##### IMAGE ANNOTATION --  Supervision detections
 			detections = sv.Detections.from_sam(sam_result=masks_SAM)
 			polygon_annotator = sv.PolygonAnnotator(color=sv.ColorPalette.ROBOFLOW, thickness=36, color_lookup=sv.ColorLookup.INDEX)
 			annotated_frame = polygon_annotator.annotate(scene=image.copy(),	detections=detections)
@@ -168,36 +174,34 @@ def process_images(input_folder, output_folder):
 			output_filename = f"Annotated_image_{image_filename}.png"
 			output_path= os.path.join(output_folder, output_filename)
 			cv2.imwrite(output_path, annotated_frame)
-			
+#Step5:			
 # FEATURE EXTRACTION
 			df_list=[]
 			for i, mask_data in enumerate(masks_SAM):
 				mask = mask_data["segmentation"]
+
+				#Label the mask
+				#Reference: https://scikit-image.org/docs/stable/auto_examples/segmentation/plot_label.html
 				label_image = measure.label(mask)
+
 				#analyse masks
-				properties = measure.regionprops(label_image, intensity_image=image)
-				regions=regionprops(label_image)
-				# extract relevant properties
-				statistics = {
-		           'Area': [p.area for p in properties],
-      		       'Perimeter': [p.perimeter     for p in properties],
-	    	        'MajorAxisLength': [p.major_axis_length  for p in properties],
-		            'MinorAxisLength': [p.minor_axis_length for p in properties],
-		            'ConvexArea': [p.area_convex  for p in properties],
-		            'EquivDiameter': [p.equivalent_diameter_area for p in properties],
-		            'Extent': [p.extent for p in properties],
-		            'Solidity': [p.solidity for p in properties],
-		            'Eccentricity': [p.eccentricity for p in properties]}
+				#Reference: https://scikit-image.org/docs/stable/api/skimage.measure.html#skimage.measure.regionprops
+				props = regionprops_table(label_image,properties=('centroid_local', 'orientation', 'area','eccentricity', 'equivalent_diameter_area','perimeter','solidity', 'area_convex', 'extent','axis_major_length', 'axis_minor_length'),) #properties = measure.regionprops(label_image, intensity_image=image)
+				
 				# convert to dataframe
-				df_FE = pd.DataFrame(statistics)
-				df_FE["AspectRation"] = df_FE["MajorAxisLength"]/df_FE['MinorAxisLength']
-				#df_FE["Roundness"]=df_FE[(4*3.14*(df_FE["Area"]))/((df_FE["Perimeter"])*(df_FE["Perimeter"]))]
-				df_FE["Compactness"] = df_FE["EquivDiameter"]/df_FE["MajorAxisLength"]
+				df_FE = pd.DataFrame(props)
+				
+				#For calculating the other parameters, mathematical operations have been used as advised in paper(Multiclass classification of dry beans using computer vision and machine learning techniques)
+				df_FE["Aspect_Ratio"] = df_FE["axis_major_length"]/df_FE['axis_minor_length']
+				#df_FE["Roundness"]=df_FE[(4*3.14*(df_FE["area"]))/((df_FE["perimeter"])*(df_FE["perimeter"]))]
+				df_FE["Compactness"] = df_FE["equivalent_diameter_area"]/df_FE["axis_major_length"]
 				#Shape features
-				df_FE["Shapefactor1"] = df_FE["MajorAxisLength"]/df_FE["Area"]
-				df_FE["Shapefactor2"] = df_FE["MinorAxisLength"]/df_FE["Area"]
+				df_FE["Shapefactor1"] = df_FE["axis_major_length"]/df_FE["area"]
+				df_FE["Shapefactor2"] = df_FE["axis_minor_length"]/df_FE["area"]
 				#df_FE["Shapefactor3"] = df_FE["MinorAxisLength"]/df_FE["Area"]
 				#df_FE["Shapefactor4"] = df_FE["axis_minor_length"]/df_FE["area"]
+
+				# The name of class has been extracted from the image file name 
 				class_in_image=(image_path).split('.JPG')[0]
 				df_FE["class"]= (image_path).split('.JPG')[0]
 				df_list.append(df_FE)
@@ -207,7 +211,7 @@ def process_images(input_folder, output_folder):
 		print(df_image)
 		output_filename = f"Fava_bean_Features_extraction.xlsx"
 		output_path= os.path.join(output_folder, output_filename)
-		df_image.to_excel(output_path)
+		df_image.to_csv(output_path)
 		print ("Feature extraction from fava bean images is completed..!")
 
 
@@ -230,4 +234,5 @@ if __name__ == "__main__":
 
 #for x in args.input_folder:
 #	image = cv2.imread(r'x')   # read an image using openCV
+
 

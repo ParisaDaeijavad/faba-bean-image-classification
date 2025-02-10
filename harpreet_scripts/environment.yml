@@ -1,0 +1,25 @@
+name: fababean_env
+channels:
+  - defaults
+  - conda-forge
+
+dependencies:
+  - pip
+  - numpy
+  - pandas
+  - matplotlib
+  - seaborn
+  - git
+  - pip:
+      - scikit-learn
+      - supervision
+      - opencv-python
+      - scikit-image
+      - openpyxl
+      - torch
+      - torchvision
+      - torchaudio --index-url https://download.pytorch.org/whl/cu118
+      - git+https://github.com/facebookresearch/segment-anything.git
+
+# Additional command to download model file
+wget https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth

@@ -4,7 +4,6 @@
 #__Project__="Faba bean Feature extraction pipeline (Step2)"
 
 #References: 
-
 #SAM 2: Segment Anything in Images and Videos:https://github.com/facebookresearch/sam2
 #Reference paper: https://ai.meta.com/research/publications/sam-2-segment-anything-in-images-and-videos/
 
@@ -94,10 +93,13 @@ def process_SAMmasks(SAM_masks, output_folder):
                 os.makedirs(output_folder)
                 print(f"Output folder '{output_folder}' created.")
                 
-                # Loop through each subfolder in the main folder
+                # Create an empty list 
                 df_total=[]
+
+                # Loop through each subfolder in the main folder
                 for subfolder_name in os.listdir(SAM_masks):
                         subfolder_path = os.path.join(SAM_masks, subfolder_name)
+                        
     
                         #create an empty list 
                         df_list=[]

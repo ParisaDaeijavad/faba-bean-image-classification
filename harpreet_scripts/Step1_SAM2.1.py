@@ -18,7 +18,8 @@ from sam2.automatic_mask_generator import SAM2AutomaticMaskGenerator
 
 # Static model configuration and checkpoint paths
 model_cfg = "configs/sam2.1/sam2.1_hiera_l.yaml"
-checkpoint = "../checkpoints/sam2.1_hiera_large.pt"
+#checkpoint = "../checkpoints/sam2.1_hiera_large.pt"
+checkpoint = "sam2/checkpoints/sam2.1_hiera_large.pt"
 
 def main(input_dir, output_dir):
     """

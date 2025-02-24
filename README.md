@@ -20,30 +20,30 @@ The novelty of this work lies in the utilization of SegmentAnything 2.1 for imag
 ![Figure 2](https://gccode.ssc-spc.gc.ca/lethbridge-carsu/wgrf-cloud-phenomics/faba-bean-image-classification/-/blob/main/harpreet_scripts/Images/SAM2.1_Flowchart.png)
 
 ## Details of Steps (Figure 2):
-1. Step1: Image/Images are used as input and SAM2.1 model generates the binary masks (.png) and metadata file (.csv) for each image in the Output dir SAM
-2. Step2: The Output dir SAM (from Step2) is used as input for this step and data  analysis, feature extraction using sci-kit image library and feature engineering gives the .csv file with dimensional and shape features in another output dir FE
-3. Step3: Both the output dir FE (from Step2) and the images (used as input in Step1) will be used as input for this step and the color labels and RGB values will be extracted using colormath library to give .csv file in the same Final output dir FE (from Step2).
+1. **Step1:** Image/Images are used as input and SAM2.1 model generates the binary masks (.png) and metadata file (.csv) for each image in the Output dir SAM
+2. **Step2:** The Output dir SAM (from Step2) is used as input for this step and data  analysis, feature extraction using sci-kit image library and feature engineering gives the .csv file with dimensional and shape features in another output dir FE
+3. **Step3:** Both the output dir FE (from Step2) and the images (used as input in Step1) will be used as input for this step and the color labels and RGB values will be extracted using colormath library to give .csv file in the same Final output dir FE (from Step2).
 
 ## Final Output Files
 After running the faba bean feature extraction pipeline, there will be 2 output directories-
-1.	Output dir SAM will contain subfolders (Faba-Seed-CC_Vf_N-N_N) with masks (N.png) and metadata file (metadata.csv) for each image. 
-2.	Output dir FE will contain :
+1.	**Output dir SAM** will contain subfolders (Faba-Seed-CC_Vf_N-N_N) with masks (N.png) and metadata file (metadata.csv) for each image. 
+2.	**Output dir FE **will contain :
 a.	The .csv file of dimensional and shape features (Fava_bean_Features_extraction.csv)
 b.	The .csv file of dimensional, shape, RGB values and Color names (FE_Color.csv)
 c.	Seed Count (.xlsx) (Seed Count.xlsx)
 d.	Annotated Binary image (.png) with contours around beans (Faba-Seed-CC_Vf_N-N_N_combined_mask.png) 
 
 The features that have been extracted through this pipeline are:
-1.	Dimensional features (19): Area_mm2_SAM,Length_mm_SAM, Width_mm_SAM, perimeter_mm_SAM, centroid-0, centroid-1,  bbox-0, bbox-1, bbox-2, bbox-3, Area_pix_SAM, Eccentricity, equivalent_diameter_area, perimeter, solidity, area_convex, extent, Axis Major Length(pix)_SAM, Axis Minor Length(pix)_SAM, Aspect_Ratio, Roundness, Compactness, Circularity_SAM
-2.	Shape features (4): Shape, Shapefactor1, Shapefactor2, Shapefactor3, Shapefactor4
-3.	Color (2): RGB value, color_seeds
-4.	Seed count: Number of seeds in image
+1.	**Dimensional features (19)**: Area_mm2_SAM,Length_mm_SAM, Width_mm_SAM, perimeter_mm_SAM, centroid-0, centroid-1,  bbox-0, bbox-1, bbox-2, bbox-3, Area_pix_SAM, Eccentricity, equivalent_diameter_area, perimeter, solidity, area_convex, extent, Axis Major Length(pix)_SAM, Axis Minor Length(pix)_SAM, Aspect_Ratio, Roundness, Compactness, Circularity_SAM
+2.	**Shape features (4)**: Shape, Shapefactor1, Shapefactor2, Shapefactor3, Shapefactor4
+3.	**Color (2)**: RGB value, color_seeds
+4.	**Seed count**: Number of seeds in image
 
 ## Prerequisites
-•	Programming Knowledge: Familiarity with Python and Linux
-•	Libraries: PyTorch, OpenCV, Sci-kit image, Numpy, Pandas, Matplotlib, Colormath, and SAM2’s official repository.
-•	Hardware: A GPU with CUDA support is recommended, (but not necessary) for efficient model inference.
-•	Dataset: Faba bean images captured using SOP 
+•	**Programming Knowledge**: Familiarity with Python and Linux
+•	**Libraries**: PyTorch, OpenCV, Sci-kit image, Numpy, Pandas, Matplotlib, Colormath, and SAM2’s official repository.
+•	**Hardware**: A GPU with CUDA support is recommended, (but not necessary) for efficient model inference.
+•	**Dataset**: Faba bean images captured using SOP 
 
 
 ## Project Structure

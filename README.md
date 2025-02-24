@@ -1,7 +1,7 @@
 # Faba bean feature extraction pipeline from WGRF-faba bean images
 
 ## Overview
-This work provides a workflow for running faba bean feature extraction pipeline to extract the dimensional, shape and color of faba bean seeds in the .csv file from the faba bean images. It presents a methodology for seed image segmentation and feature extraction using advanced deep learning and image processing techniques. The Segment Anything Model 2.1 (SAM2.1) has been used for precise segmentation, while OpenCV, Scikit-Image, and Matplotlib-colors are employed to analyze the dimensional, spatial, shape, and color properties of segmented seeds. The pipeline also gives the seed count in an image and annotated binary images. The pipeline has been specifically developed based on the spatial coordinates of faba bean seeds, colorcard, label, ruler and coin.
+This work provides a workflow for running faba bean feature extraction pipeline to extract the dimensional, shape and color of faba bean seeds in the .csv file from the faba bean images. It presents a methodology for seed image segmentation and feature extraction using advanced deep learning and image processing techniques. The [Segment Anything Model 2.1](https://github.com/facebookresearch/sam2/blob/main/README.md) (SAM2.1) has been used for precise segmentation, while OpenCV, Scikit-Image, and Matplotlib-colors are employed to analyze the dimensional, spatial, shape, and color properties of segmented seeds. The pipeline also gives the seed count in an image and annotated binary images. The pipeline has been specifically developed based on the spatial coordinates of faba bean seeds, colorcard, label, ruler and coin.
 
 ## Faba bean Images
 The images of faba beans were captured according to the Standard Operating Protocol (Figure 1).
@@ -21,7 +21,7 @@ The novelty of this work lies in the utilization of SegmentAnything 2.1 for imag
 
 ## 🔥 A Quick Overview
 
-![Figure 2](https://gccode.ssc-spc.gc.ca/lethbridge-carsu/wgrf-cloud-phenomics/faba-bean-image-classification/-/blob/main/harpreet_scripts/Images/SAM2.1_Flowchart.png)
+![Figure 2](https://gccode.ssc-spc.gc.ca/lethbridge-carsu/wgrf-cloud-phenomics/faba-bean-image-classification/-/raw/main/harpreet_scripts/Images/SAM2.1_Flowchart.png)
 
 ## Details of Steps (Figure 2):
 

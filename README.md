@@ -5,26 +5,34 @@ This work provides a workflow for running faba bean feature extraction pipeline 
 
 ## Faba bean Images
 The images of faba beans were captured according to the Standard Operating Protocol (Figure 1).
+
 ![Figure 1](https://gccode.ssc-spc.gc.ca/lethbridge-carsu/wgrf-cloud-phenomics/faba-bean-image-classification/-/blob/main/harpreet_scripts/Images/Faba-Seed-CC_Vf1-1-2.JPG)
   
 Figure 1. Example of Faba bean images Vf1-1-2 (image shape=6000, 4000, 3) with faba bean seeds, colorcard, coin, label and ruler     
 
 
 ## Segmentanything 2.1 (MetaAI) Model used for image segmentation
+
 Segment Anything Model 2 (SAM 2.1) is an advanced segmentation model designed to work seamlessly with both images and videos, treating a single image as a one-frame video. This work introduces a new task, model, and dataset aimed at improving segmentation performance. SAM 2 trained on SA-V dataset provides strong performance across a wide range of tasks. In image segmentation, SAM2 model is reported to be more accurate and 6 times faster than the Segment Anything Model (SAM). 
 
 ## Uniqueness/Novelty
+
 The novelty of this work lies in the utilization of SegmentAnything 2.1 for image segmentation. While researchers have traditionally relied on OpenCV and scikit-image libraries for segmentation tasks, this study leverages SegmentAnything 2.1 to produce 
 
 ## 🔥 A Quick Overview
+
 ![Figure 2](https://gccode.ssc-spc.gc.ca/lethbridge-carsu/wgrf-cloud-phenomics/faba-bean-image-classification/-/blob/main/harpreet_scripts/Images/SAM2.1_Flowchart.png)
 
 ## Details of Steps (Figure 2):
+
 1. **Step1:** Image/Images are used as input and SAM2.1 model generates the binary masks (.png) and metadata file (.csv) for each image in the Output dir SAM
+
 2. **Step2:** The Output dir SAM (from Step2) is used as input for this step and data  analysis, feature extraction using sci-kit image library and feature engineering gives the .csv file with dimensional and shape features in another output dir FE
+
 3. **Step3:** Both the output dir FE (from Step2) and the images (used as input in Step1) will be used as input for this step and the color labels and RGB values will be extracted using colormath library to give .csv file in the same Final output dir FE (from Step2).
 
 ## Final Output Files
+
 After running the faba bean feature extraction pipeline, there will be 2 output directories-
 1.	**Output dir SAM** will contain subfolders (Faba-Seed-CC_Vf_N-N_N) with masks (N.png) and metadata file (metadata.csv) for each image. 
 2.	**Output dir FE** will contain :
@@ -74,12 +82,12 @@ a. Navigate to the directory containing environment.yml
    ```
 b. Run the following command to ensure that defaults is explicitly set in your Conda configuration.
 
-     ```bash
+   ```bash
    conda config --add channels defaults
    ```
 c. Create the Conda Environment
 
-  ```bash
+   ```bash
    conda env create -f environment.yml
    ```
 d. Activate the environment:
@@ -92,7 +100,7 @@ d. Activate the environment:
 
 a.	Clone SAM 2 github repository and download the checkpoints by running the commands as:
 
-  ```bash
+   ```bash
    git clone https://github.com/facebookresearch/sam2.git && cd sam2
    pip install -e .
    cd checkpoints && \
@@ -101,12 +109,12 @@ a.	Clone SAM 2 github repository and download the checkpoints by running the com
    ```
 b.	Copy the python script in the sam2 directory
 
-    ```bash
+   ```bash
    cp ../Step1_SAM2.1.py .
    ```
 c.	change the directory to the parent directory
 
-  ```bash
+   ```bash
    cd ..
    ```
 
@@ -118,13 +126,13 @@ Step1: Generation of binary masks from images folder
 
 Python script Step1_SAM2.1.py takes the images as input and generates the binary masks (.png) and metadata .csv file for each image using SAM2.1 model in the output directory. Run the following command for generating masks and metadata file
 
- ```bash
+   ```bash
    python sam2/Step1_SAM2.1.py input_dir <nameofinputdir> output_dir <nameofoutputdir>
    ```
 5. Step2: Extraction of dimensional and shape features (.csv file) and seed count (.xlsx file) from binary masks and metdata file from the output of Step1: 
 The python script (Step2_SAM2.1.py) uses the binary masks and metadata (from output of Step1) as input and generates the .csv file of dimensional & shape features and binary annotated combined masks (.png) as output in another output folder. Run the following command for generating the output files:
 
-  ```bash
+   ```bash
    python Step2_SAM2.1.py <nameofoutputdir> <nameofnewoutputdir>
    ```
 
@@ -133,7 +141,7 @@ Note: <nameofoutputdir> is the directory with binary masks and metadata file whi
 6. Step3: Color extraction from images and features extraction files
 The python script (Step3_color.py), takes the .csv file of dimensional and shape features and images as inputs to generate output as feature extraction containing the dimensional, shape features, RGB values and color in the .csv file. 
 
- ```bash
+   ```bash
    python Step3_color.py < image_or_folder> <nameofnewoutputdir>
    ```
 
@@ -145,7 +153,7 @@ The python script (Step3_color.py), takes the .csv file of dimensional and shape
 
 Run the CLI as:
 
-```bash
+   ```bash
    python sam2/Step1_SAM2.1.py input_dir faba_images output_dir output_SAM
 
    python Step2_SAM2.1.py output_SAM output_FE

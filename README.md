@@ -1,9 +1,11 @@
 # Faba bean feature extraction pipeline from WGRF-faba bean images
 
 ## Overview
+
 This work provides a workflow for running faba bean feature extraction pipeline to extract the dimensional, shape and color of faba bean seeds in the .csv file from the faba bean images. It presents a methodology for seed image segmentation and feature extraction using advanced deep learning and image processing techniques. The [Segment Anything Model 2.1](https://github.com/facebookresearch/sam2/blob/main/README.md) (SAM2.1) has been used for precise segmentation, while [OpenCV](https://docs.opencv.org/4.x/d7/dbd/group__imgproc.html), [Scikit-Image](https://scikit-image.org/), and [Matplotlib-colors](https://matplotlib.org/stable/gallery/color/named_colors.html) are employed to analyze the dimensional, spatial, shape, and color properties of segmented seeds. The pipeline also gives the seed count in an image and annotated binary images. The pipeline has been specifically developed based on the spatial coordinates of faba bean seeds, colorcard, label, ruler and coin.
 
 ### Faba bean Images
+
 The images of faba beans were captured according to the Standard Operating Protocol (Figure 1).
 
 <img src="https://gccode.ssc-spc.gc.ca/lethbridge-carsu/wgrf-cloud-phenomics/faba-bean-image-classification/-/raw/main/harpreet_scripts/Images/Faba-Seed-CC_Vf1-1-2.JPG" alt="Figure 1" width="200">
@@ -77,22 +79,23 @@ project-folder/
 
 1. Install [Miniconda](https://docs.conda.io/en/latest/miniconda.html) or [Anaconda](https://www.anaconda.com/).
 2. Create a new Conda environment using environment.yml file 
-a. Navigate to the directory containing environment.yml
+
+2a. Navigate to the directory containing environment.yml
 
    ```bash
    cd /path/to/environment.yml
    ```
-b. Run the following command to ensure that defaults is explicitly set in your Conda configuration.
+2b. Run the following command to ensure that defaults is explicitly set in your Conda configuration.
 
    ```bash
    conda config --add channels defaults
    ```
-c. Create the Conda Environment
+2c. Create the Conda Environment
 
    ```bash
    conda env create -f environment.yml
    ```
-d. Activate the environment:
+2d. Activate the environment:
 
    ```bash
    conda activate fababean_env
@@ -100,7 +103,7 @@ d. Activate the environment:
 
 3. Clone SAM 2 Github Repository, checkpoints and Step1_SAM2.1.py 
 
-a.	Clone SAM 2 github repository and download the checkpoints by running the commands as:
+3a.	Clone SAM 2 github repository and download the checkpoints by running the commands as:
 
    ```bash
    git clone https://github.com/facebookresearch/sam2.git && cd sam2
@@ -109,12 +112,12 @@ a.	Clone SAM 2 github repository and download the checkpoints by running the com
    ./download_ckpts.sh && \
    cd ..
    ```
-b.	Copy the python script in the sam2 directory
+3b.	Copy the python script in the sam2 directory
 
    ```bash
    cp ../Step1_SAM2.1.py .
    ```
-c.	change the directory to the parent directory
+3c.	change the directory to the parent directory
 
    ```bash
    cd ..

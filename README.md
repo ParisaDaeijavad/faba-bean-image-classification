@@ -125,6 +125,8 @@ project-folder/
 
 ## Usage   
 
+Note: After installation, the parent directory contains two subdirectories, image directory with .JPG images (e.g. faba_images)  and sam2, as well as the python scripts: Step1_SAM2.1.py, Step2_SAM2.1.py and Step3_color.py. The subdirectories and the .ipynb file are all located at the same hierarchical level within the parent directory. The subdirectory sam2 also contains Step1_SAM2.1.py.
+
 4. For running the pipeline, follow the steps 1-3 
 
 Step1: Generation of binary masks from images folder

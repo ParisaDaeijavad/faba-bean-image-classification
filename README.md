@@ -129,6 +129,8 @@ Note: After installation, the parent directory contains two subdirectories, imag
 
 4. For running the pipeline, follow the steps 1-3 
 
+(Note: For these steps, the <nameofoutputdir> is the directory with binary masks and metadata file while <nameofnewoutputdir> is the name of new output directory which will contain the .csv file of dimensional & shape features, seed count and annotated binary images. Only the names of the output folders <nameofoutputdir> and <nameofnewoutputdir> have to specified in CLI. Please do not make/create any output directory, it would be created in the parent directory as per the code).
+
 Step1: Generation of binary masks from images folder
 
 Python script Step1_SAM2.1.py takes the images as input and generates the binary masks (.png) and metadata .csv file for each image using SAM2.1 model in the output directory. Run the following command for generating masks and metadata file
@@ -144,14 +146,12 @@ The python script (Step2_SAM2.1.py) uses the binary masks and metadata (from out
    python Step2_SAM2.1.py <nameofoutputdir> <nameofnewoutputdir>
    ```
 
-Note: <nameofoutputdir> is the directory with binary masks and metadata file while <nameofnewoutputdir> should be the name of new output directory which will contain the .csv file of dimensional & shape features, seed count and annotated binary images
-
 6. Step3: Color extraction from images and features extraction files
 
 The python script (Step3_color.py), takes the .csv file of dimensional and shape features and images as inputs to generate output as feature extraction containing the dimensional, shape features, RGB values and color in the .csv file. 
 
    ```bash
-   python Step3_color.py < image_or_folder> <nameofnewoutputdir>
+   python Step3_color.py <nameofinputdir> <nameofnewoutputdir>
    ```
 
 

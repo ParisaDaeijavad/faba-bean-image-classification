@@ -129,7 +129,7 @@ Note: After installation, the parent directory contains two subdirectories, imag
 
 4. For running the pipeline, follow the steps 1-3 
 
-(Note: For these steps, the <nameofoutputdir> is the directory with binary masks and metadata file while <nameofnewoutputdir> is the name of new output directory which will contain the .csv file of dimensional & shape features, seed count and annotated binary images. Only the names of the output folders <nameofoutputdir> and <nameofnewoutputdir> have to specified in CLI. Please do not make/create any output directory, it would be created in the parent directory as per the code).
+Note: For these steps, the <nameofinputdir> is the name of directory with images, <nameofoutputdir> is the name of directory with binary masks and metadata file while <nameofnewoutputdir> is the name of new output directory which will contain the .csv file of dimensional & shape features, seed count and annotated binary images. Only the names of the output folders <nameofoutputdir> and <nameofnewoutputdir> have to specified in CLI (For example <nameofoutputdir> is output_SAM and <nameofnewoutputdir> is output_FE).Do not make/create any output directory, it would be created in the parent directory as per the code.
 
 Step1: Generation of binary masks from images folder
 

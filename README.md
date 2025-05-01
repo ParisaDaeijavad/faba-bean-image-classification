@@ -54,7 +54,7 @@ The features that have been extracted through this pipeline are:
 ### Prerequisites
 •	**Programming Knowledge**: Familiarity with Python and Linux
 
-•	**Libraries**: PyTorch, OpenCV, Sci-kit image, Numpy, Pandas, Matplotlib, Colormath, and SAM2’s official repository.
+•	**Libraries**: PyTorch, OpenCV, Sci-kit image, Numpy, Pandas, Matplotlib, and SAM2’s official repository.
 
 •	**Hardware**: A GPU with CUDA support is recommended, (but not necessary) for efficient model inference.
 

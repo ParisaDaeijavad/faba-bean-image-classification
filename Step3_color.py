@@ -190,10 +190,10 @@ def main():
         meanE, maxE = compute_deltaE(measured_corr, REFERENCE_RGBS)
         calibration_records.append({"Image":p.name,"Mean_DeltaE":meanE,"Max_DeltaE":maxE})
     
-    # # Save calibration CSV
-    # calib_csv = output_folder / "calibration_clusters.csv"
-    # pd.DataFrame(calibration_records).to_csv(calib_csv,index=False)
-    # print("Saved calibration CSV:", calib_csv)
+    # Save calibration CSV
+    calib_csv = output_folder / "calibration_clusters.csv"
+    pd.DataFrame(calibration_records).to_csv(calib_csv,index=False)
+    print("Saved calibration CSV:", calib_csv)
     
     # Extract dominant seed colors
     bbox_csv = find_first_csv(output_folder)

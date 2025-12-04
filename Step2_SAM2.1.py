@@ -2,7 +2,7 @@
 # __author__="harpreet kaur bargota" & "Hao Nan Tobey Wang"
 # __email__="harpreet.bargota@agr.gc.ca" & "haonantobey.wang@agr.gc.ca"
 # __Project__="Faba bean Feature extraction pipeline (Step2)"
-# __Date__=2025/11/24
+# __Date__=2025/11/21
 
 #References: 
 #SAM 2: Segment Anything in Images and Videos:https://github.com/facebookresearch/sam2
